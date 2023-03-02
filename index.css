@@ -28,17 +28,51 @@ main {
   color: white;
 }
 
-.main-content {
+.focus-wrapper {
+  max-width: 520px;
+  margin: 0 auto;
   align-self: center;
+  display: inline-block;
+  margin-bottom: 80px;
+}
+
+.focus-question {
+  font-size: 3rem;
+}
+
+.focus-input {
+  background-color: unset;
+  outline: none;
+  border: none;
+  border-bottom: 2px solid white;
+  width: 100%;
+  color: inherit;
+  font-family: inherit;
+  font-size: 3rem;
   text-align: center;
 }
 
-#time {
+.main-content {
+  align-self: center;
+  text-align: center;
+  max-width: 700px;
+  position: relative;
+}
+
+.quote {
+  font-size: 1.6rem;
+}
+
+.quote-author {
+  font-size: 1.2rem;
+}
+
+.time {
   font-size: 10rem;
 }
 
-.main-content p {
-  font-size: 2rem;
+.hello-message {
+  font-size: 5.4rem;
 }
 
 .top {
@@ -71,4 +105,70 @@ main {
 
 .image-info {
   font-size: 1.2rem;
+}
+
+.added-focus-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.checkbox-label {
+  margin-left: 0.5em;
+}
+
+i.checkbox {
+  cursor: pointer;
+}
+
+.dots {
+  font-size: 4rem;
+  line-height: 4rem;
+  width: 4rem;
+  align-self: center;
+  margin-left: auto;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.35s ease;
+}
+
+.dots:hover {
+  background-color: rgba(208, 188, 188, 0.5);
+}
+
+.crossed {
+  text-decoration: line-through;
+}
+
+.dots-container {
+  background-color: #0f0f0fec;
+  opacity: 0.9;
+  width: 120px;
+  flex-direction: column;
+  cursor: pointer;
+  padding: 6px 0;
+  border-radius: 7px;
+  position: absolute;
+  right: 23%;
+  top: 20%;
+  display: none;
+
+}
+
+.dots-option {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 15px;
+  font-size: 1.4rem;
+}
+
+.dots-option i {
+  font-size: 1rem;
+}
+
+.dots-option:hover {
+  background-color: #333333;
 }

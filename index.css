@@ -30,16 +30,15 @@ main {
 }
 
 .focus-wrapper {
-  max-width: 520px;
+  width: 100%;
+  max-width: 700px;
   margin: 0 auto;
-  align-self: center;
   display: inline-block;
-  margin-bottom: 80px;
+  padding: 20px;
 }
 
 .focus-question {
   font-size: 3rem;
-  /* margin-right: 8px; */
 }
 
 .focus-input {
@@ -52,18 +51,19 @@ main {
   font-family: inherit;
   font-size: 3rem;
   text-align: center;
-
 }
 
 .main-content {
   align-self: center;
   text-align: center;
   max-width: 700px;
-  position: relative;
 }
+
+
 
 .quote {
   font-size: 1.6rem;
+  margin-top: 60px;
 }
 
 .quote-author {
@@ -71,7 +71,8 @@ main {
 }
 
 .time {
-  font-size: 10rem;
+  font-size: 15rem;
+  line-height: 0.8;
 }
 
 .hello-message {
@@ -80,7 +81,7 @@ main {
 
 .top {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .weather-wrapper {
@@ -113,7 +114,7 @@ main {
 .added-focus-wrapper {
   display: flex;
   align-items: center;
-  width: 100%;
+  justify-content: center;
 }
 
 .checkbox-label {
@@ -124,15 +125,27 @@ i.checkbox {
   cursor: pointer;
 }
 
-.dots {
-  font-size: 4rem;
-  line-height: 4rem;
-  width: 4rem;
-  align-self: center;
-  margin-left: auto;
+
+#nikola {
+  position: relative;
+  display: flex;
+  align-items: center;
   cursor: pointer;
+}
+
+.dots {
   border-radius: 50%;
-  transition: all 0.35s ease;
+  padding: 6px;
+  transition: background-color 0.35s ease;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.dots i {
+  font-size: 2rem;
+  width: 20px;
 }
 
 .dots:hover {
@@ -142,20 +155,19 @@ i.checkbox {
 .crossed {
   text-decoration: line-through;
   color: rgb(211, 208, 208);
-  /* text-shadow: none; */
 }
 
 .dots-container {
   background-color: #0f0f0fec;
   opacity: 0.9;
-  width: 120px;
+  width: 150px;
+  border-radius: 7px;
   flex-direction: column;
   cursor: pointer;
   padding: 6px 0;
-  border-radius: 7px;
   position: absolute;
-  right: 23%;
-  top: 20%;
+  top: 40px;
+  /* bottom: -50px; */
   display: none;
 }
 
@@ -175,4 +187,8 @@ i.checkbox {
 
 .dots-option:hover {
   background-color: #333333;
+}
+
+i.dark {
+  color: rgb(211, 208, 208);
 }

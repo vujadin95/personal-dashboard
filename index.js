@@ -36,6 +36,7 @@ async function getBackgroundImage() {
   }
 }
 getBackgroundImage();
+setInterval(getBackgroundImage, 24 * 60 * 60 * 1000);
 
 // function for displaying time and hello message on dashboard
 function setTime() {
@@ -107,28 +108,37 @@ async function getWeatherData() {
   }
 }
 getWeatherData();
+setInterval(getWeatherData, 600 * 1000);
 
-let focusData = { input: "", isChecked: false, areDotsClicked: false };
+let focusData = { input: "", isChecked: false };
+
+if (localStorage.getItem("focusData")) {
+  focusData = JSON.parse(localStorage.getItem("focusData"));
+} else {
+  localStorage.setItem("focusData", JSON.stringify(focusData));
+}
+let dotsAreClicked = false;
 
 function render() {
   if (focusData.input === "") {
     displayFocusWithInput();
-    focusEl.addEventListener("keypress", function (e) {
-      if (document.getElementById("focus-input")) {
-        focusData.input = document.getElementById("focus-input").value;
-      }
-      if (e.key === "Enter" && focusData.input !== "") {
-        displayFocusWithInputValue();
-        hadnleCheckboxClick();
-        handleDotsClick();
-        // localStorage.setItem("focusData", JSON.stringify(focusData));
-      }
-    });
   } else {
     displayFocusWithInputValue();
     hadnleCheckboxClick();
     handleDotsClick();
   }
+
+  focusEl.addEventListener("keypress", function (e) {
+    if (document.getElementById("focus-input")) {
+      focusData.input = document.getElementById("focus-input").value;
+      localStorage.setItem("focusData", JSON.stringify(focusData));
+    }
+    if (e.key === "Enter" && focusData.input !== "") {
+      displayFocusWithInputValue();
+      hadnleCheckboxClick();
+      handleDotsClick();
+    }
+  });
 }
 
 function displayFocusWithInput() {
@@ -142,22 +152,44 @@ function displayFocusWithInputValue() {
   focusEl.innerHTML = `
   <p class="focus-question">Today's focus</p>
   <div class='added-focus-wrapper'>
-  ${
-    focusData.isChecked
-      ? '<i id="uzmi" class="fa-solid fa-square-check fa-2xl checkbox"></i>'
-      : '<i id="uzmi" class="fa-regular fa-square fa-2xl checkbox"></i>'
-  }  
-    <p class='focus-question checkbox-label ${
-      focusData.isChecked ? "crossed" : ""
-    }'>${focusData.input}</p>
-    <span id='dots' class='dots'>&#183;&#183;&#183;</span>
+    ${
+      focusData.isChecked
+        ? '<i id="checkbox" class="fa-solid fa-square-check fa-2xl checkbox dark hidden"></i>'
+        : '<i id="checkbox" class="fa-regular fa-square fa-2xl checkbox hidden"></i>'
+    }  
+      <p class='focus-question checkbox-label ${
+        focusData.isChecked ? "crossed" : ""
+      }'>${focusData.input}</p>
+      <div id='nikola' class='hidden'>
+        <span id='dots' class='dots'><i class="fa-solid fa-ellipsis fa2xl"></i></span>
+        <div id="dots-id" class="dots-container"></div>
+      </div>
   </div>
   `;
+
+  handleCheckBoxHover();
+}
+
+function handleCheckBoxHover() {
+  focusEl.addEventListener("mouseover", function (e) {
+    if (document.getElementById("nikola")) {
+      document.getElementById("nikola").classList.remove("hidden");
+      document.getElementById("checkbox").classList.remove("hidden");
+    }
+  });
+  focusEl.addEventListener("mouseleave", function (e) {
+    if (document.getElementById("nikola")) {
+      document.getElementById("nikola").classList.add("hidden");
+      document.getElementById("checkbox").classList.add("hidden");
+    }
+  });
 }
 
 function hadnleCheckboxClick() {
-  document.getElementById("uzmi").addEventListener("click", function () {
+  document.getElementById("checkbox").addEventListener("click", function () {
     focusData.isChecked = !focusData.isChecked;
+    dotsAreClicked = false;
+    localStorage.setItem("focusData", JSON.stringify(focusData));
     render();
   });
 }
@@ -166,47 +198,47 @@ function handleDotsClick() {
   const dotsSpanEl = document.getElementById("dots");
   const dotsEl = document.getElementById("dots-id");
   dotsSpanEl.addEventListener("click", function () {
-    focusData.areDotsClicked = !focusData.areDotsClicked;
-    if (focusData.areDotsClicked) {
-      dotsEl.style.display = "flex";
+    dotsAreClicked = !dotsAreClicked;
+    dotsEl.style.display = "flex";
+    if (dotsAreClicked) {
       if (focusData.isChecked) {
         dotsEl.innerHTML = `
-              <div id='clear-btn-checkbox-clicked' class="dots-option">
-                <i class="fa-solid fa-x"></i>
-                <p>Clear</p>
-              </div>
-              <div id='new-btn' class="dots-option">
-                <i class="fa-solid fa-plus"></i>
-                <p>New</p>
-              </div>
-      `;
+                <div id='clear-btn-checkbox-clicked' class="dots-option">
+                  <i class="fa-solid fa-x"></i>
+                  <p>Clear</p>
+                </div>
+                <div id='new-btn' class="dots-option">
+                  <i class="fa-solid fa-plus"></i>
+                  <p>New</p>
+                </div>
+        `;
       } else {
         dotsEl.innerHTML = `
-              <div id='edit-btn' class="dots-option">
-                <i class="fa-solid fa-pen"></i>
-                <p>Edit</p>
-              </div>
-              <div id='clear-btn-checkbox-not-clicked' class="dots-option">
-                <i class="fa-solid fa-x"></i>
-                <p>Clear</p>
-              </div>
-        `;
+                <div id='edit-btn' class="dots-option">
+                  <i class="fa-solid fa-pen"></i>
+                  <p>Edit</p>
+                </div>
+                <div id='clear-btn-checkbox-not-clicked' class="dots-option">
+                  <i class="fa-solid fa-x"></i>
+                  <p>Clear</p>
+                </div>
+          `;
       }
-      dotsEl.addEventListener("click", test);
     } else {
       dotsEl.style.display = "none";
     }
+    dotsEl.addEventListener("click", test);
   });
 }
 
-render();
-
 function test(e) {
   if (e.target.id === "edit-btn" || e.target.parentElement.id === "edit-btn") {
+    dotsAreClicked = false;
+    document.getElementById("dots-id").style.display = "none";
     displayFocusWithInput();
     document.getElementById("focus-input").value = focusData.input;
+    localStorage.setItem("focusData", JSON.stringify(focusData));
     document.getElementById("focus-input").focus();
-    document.getElementById("dots-id").style.display = "none";
   } else if (
     e.target.id === "clear-btn-checkbox-not-clicked" ||
     e.target.parentElement.id === "clear-btn-checkbox-not-clicked" ||
@@ -217,9 +249,21 @@ function test(e) {
   ) {
     focusData.input = "";
     focusData.isChecked = false;
-    focusData.areDotsClicked = false;
+    dotsAreClicked = false;
+    localStorage.setItem("focusData", JSON.stringify(focusData));
     document.getElementById("dots-id").style.display = "none";
     render();
     document.getElementById("focus-input").focus();
   }
 }
+
+document.body.addEventListener("mouseup", function (e) {
+  if (document.getElementById("nikola")) {
+    if (!document.getElementById("nikola").contains(e.target)) {
+      document.getElementById("dots-id").style.display = "none";
+      dotsAreClicked = false;
+    }
+  }
+});
+
+render();

@@ -2,7 +2,7 @@
 const defaultAuthor = "Marek Piwnicki";
 const defaultQoute = "Today is the tomorrow you worried about yesterday.";
 const scrimbaApi =
-  "https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=universe";
+  "https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature";
 const quoteApi = "https://type.fit/api/quotes";
 
 // index.html page elements
@@ -108,61 +108,118 @@ async function getWeatherData() {
 }
 getWeatherData();
 
-let mainFocus = { text: "", isChecked: false };
+let focusData = { input: "", isChecked: false, areDotsClicked: false };
 
 function render() {
-  if (mainFocus.text === "") {
-    focusEl.innerHTML = `
-    <p class="focus-question">What is your main focus on today?</p>
-    <input class="focus-input" type="text" id='focus-input' autocomplete='off'/>
-    `;
-    focusEl.addEventListener("input", function () {
-      mainFocus.text = document.getElementById("focus-input").value;
-    });
+  if (focusData.input === "") {
+    displayFocusWithInput();
     focusEl.addEventListener("keypress", function (e) {
-      if (e.key === "Enter" && mainFocus.text !== "") {
-        renderEnteredFocus();
-        document.getElementById("uzmi").addEventListener("click", function () {
-          mainFocus.isChecked = !mainFocus.isChecked;
-          renderEnteredFocus();
-          render();
-        });
+      if (document.getElementById("focus-input")) {
+        focusData.input = document.getElementById("focus-input").value;
+      }
+      if (e.key === "Enter" && focusData.input !== "") {
+        displayFocusWithInputValue();
+        hadnleCheckboxClick();
+        handleDotsClick();
+        // localStorage.setItem("focusData", JSON.stringify(focusData));
       }
     });
   } else {
-    document.getElementById("uzmi").addEventListener("click", function () {
-      mainFocus.isChecked = !mainFocus.isChecked;
-      renderEnteredFocus();
-      document
-        .getElementById("ajde-ovo")
-        .addEventListener("click", function () {
-          console.log("first");
-          document.getElementById("dots-id").style.display = "flex";
-        });
-      render();
-    });
+    displayFocusWithInputValue();
+    hadnleCheckboxClick();
+    handleDotsClick();
   }
 }
 
-function renderEnteredFocus() {
+function displayFocusWithInput() {
+  focusEl.innerHTML = `
+    <p class="focus-question">What is your main focus on today?</p>
+    <input class="focus-input" type="text" id='focus-input' autocomplete='off'/>
+    `;
+}
+
+function displayFocusWithInputValue() {
   focusEl.innerHTML = `
   <p class="focus-question">Today's focus</p>
   <div class='added-focus-wrapper'>
   ${
-    mainFocus.isChecked
+    focusData.isChecked
       ? '<i id="uzmi" class="fa-solid fa-square-check fa-2xl checkbox"></i>'
       : '<i id="uzmi" class="fa-regular fa-square fa-2xl checkbox"></i>'
   }  
     <p class='focus-question checkbox-label ${
-      mainFocus.isChecked ? "crossed" : ""
-    }'>${mainFocus.text}</p>
-    <span id='ajde-ovo' class='dots'>&#183;&#183;&#183;</span>
+      focusData.isChecked ? "crossed" : ""
+    }'>${focusData.input}</p>
+    <span id='dots' class='dots'>&#183;&#183;&#183;</span>
   </div>
   `;
 }
-function deleteFocusTask() {
-  mainFocus.text = "";
+
+function hadnleCheckboxClick() {
+  document.getElementById("uzmi").addEventListener("click", function () {
+    focusData.isChecked = !focusData.isChecked;
+    render();
+  });
 }
-//<i class="fa-solid fa-square-check"></i>
+
+function handleDotsClick() {
+  const dotsSpanEl = document.getElementById("dots");
+  const dotsEl = document.getElementById("dots-id");
+  dotsSpanEl.addEventListener("click", function () {
+    focusData.areDotsClicked = !focusData.areDotsClicked;
+    if (focusData.areDotsClicked) {
+      dotsEl.style.display = "flex";
+      if (focusData.isChecked) {
+        dotsEl.innerHTML = `
+              <div id='clear-btn-checkbox-clicked' class="dots-option">
+                <i class="fa-solid fa-x"></i>
+                <p>Clear</p>
+              </div>
+              <div id='new-btn' class="dots-option">
+                <i class="fa-solid fa-plus"></i>
+                <p>New</p>
+              </div>
+      `;
+      } else {
+        dotsEl.innerHTML = `
+              <div id='edit-btn' class="dots-option">
+                <i class="fa-solid fa-pen"></i>
+                <p>Edit</p>
+              </div>
+              <div id='clear-btn-checkbox-not-clicked' class="dots-option">
+                <i class="fa-solid fa-x"></i>
+                <p>Clear</p>
+              </div>
+        `;
+      }
+      dotsEl.addEventListener("click", test);
+    } else {
+      dotsEl.style.display = "none";
+    }
+  });
+}
 
 render();
+
+function test(e) {
+  if (e.target.id === "edit-btn" || e.target.parentElement.id === "edit-btn") {
+    displayFocusWithInput();
+    document.getElementById("focus-input").value = focusData.input;
+    document.getElementById("focus-input").focus();
+    document.getElementById("dots-id").style.display = "none";
+  } else if (
+    e.target.id === "clear-btn-checkbox-not-clicked" ||
+    e.target.parentElement.id === "clear-btn-checkbox-not-clicked" ||
+    e.target.id === "clear-btn-checkbox-clicked" ||
+    e.target.parentElement.id === "clear-btn-checkbox-clicked" ||
+    e.target.id === "new-btn" ||
+    e.target.parentElement.id === "new-btn"
+  ) {
+    focusData.input = "";
+    focusData.isChecked = false;
+    focusData.areDotsClicked = false;
+    document.getElementById("dots-id").style.display = "none";
+    render();
+    document.getElementById("focus-input").focus();
+  }
+}

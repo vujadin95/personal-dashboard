@@ -15,39 +15,38 @@
 </head>
 
 <body>
-  <main>
-    <div class="top">
-      <!-- <div id="links">
-        <div id="links-top">Here i Will have option to add links</div>
-      </div> -->
+  <main class="dashboard-container">
+    <!-- header element for holding information about weather data -->
+    <header class="weather-container">
       <div id="weather" class="weather-wrapper">
-        <div class="weather-info">
-          <img id="weather-icon" src="" />
-          <p id="weather-temp"></p>
+        <div class="weather-icon-and-temp">
+          <img id="weather-icon" src="" class="weather-icon" />
+          <p id="weather-temp" class="weather-temperature"></p>
         </div>
-        <div id="weather-location"></div>
+        <div id="weather-location" class="weather-location"></div>
       </div>
-    </div>
+    </header>
+    <!-- section element for holding information about time, focus of the day and random quote with author of the quote -->
+    <section class="main-content-container">
 
-    <div class="main-content">
-
-      <p id="time" class="time"></p>
+      <p id="time" class="time-holder"></p>
       <p id="hello-message" class="hello-message"></p>
 
 
-      <div id="focus" class="focus-wrapper">
+      <div id="focus" class="focus-container">
       </div>
 
+      <div class="random-quote-container">
+        <p id="quote" class="quote"></p>
+        <p id="quote-author" class="quote-author"></p>
+      </div>
 
-      <p id="quote" class="quote"></p>
-      <p id="quote-author" class="quote-author"></p>
-
-    </div>
-
-    <div class="image-info">
+    </section>
+    <!-- footer element for holding information abotu author of background image of the dashboard -->
+    <footer class="background-image-info">
       <p id="author"></p>
       <p id="location"></p>
-    </div>
+    </footer>
 
   </main>
   <script src="/index.js"></script>

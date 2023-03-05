@@ -20,7 +20,9 @@ body {
   text-shadow: 0px 0px 20px #242424;
 }
 
-main {
+/* START header */
+
+.dashboard-container {
   padding: 20px;
   height: 100vh;
   display: flex;
@@ -29,57 +31,7 @@ main {
   color: white;
 }
 
-.focus-wrapper {
-  width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
-  display: inline-block;
-  padding: 20px;
-}
-
-.focus-question {
-  font-size: 3rem;
-}
-
-.focus-input {
-  background-color: unset;
-  outline: none;
-  border: none;
-  border-bottom: 2px solid white;
-  width: 100%;
-  color: inherit;
-  font-family: inherit;
-  font-size: 3rem;
-  text-align: center;
-}
-
-.main-content {
-  align-self: center;
-  text-align: center;
-  max-width: 700px;
-}
-
-
-
-.quote {
-  font-size: 1.6rem;
-  margin-top: 60px;
-}
-
-.quote-author {
-  font-size: 1.2rem;
-}
-
-.time {
-  font-size: 15rem;
-  line-height: 0.8;
-}
-
-.hello-message {
-  font-size: 5.4rem;
-}
-
-.top {
+.weather-container {
   display: flex;
   justify-content: flex-end;
 }
@@ -89,29 +41,96 @@ main {
   flex-direction: column;
 }
 
-#weather-location {
-  font-size: 1.5rem;
-}
-
-.weather-info {
+.weather-icon-and-temp {
   display: flex;
   align-items: center;
   justify-content: flex-end;
 }
 
-.weather-info>img {
+.weather-icon {
   width: 40px;
 }
 
-.weather-info p {
+.weather-temperature {
   font-size: 2.4rem;
 }
 
-.image-info {
+.weather-location {
+  font-size: 1.5rem;
+}
+
+/* END header */
+
+/* START main section with time, focus and quote */
+
+.main-content-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.time-holder {
+  font-size: 16.8rem;
+  line-height: 1;
+  align-self: center;
+}
+
+.hello-message {
+  font-size: 5.4rem;
+}
+
+.focus-container {
+  width: 100%;
+  padding: 20px 0;
+}
+
+.main-focus-question {
+  font-size: 3rem;
+
+}
+
+.main-focus-today {
+  font-size: 2rem;
+}
+
+.focus-input {
+  background-color: unset;
+  outline: none;
+  border: none;
+  border-bottom: 2px solid white;
+  width: 100%;
+  max-width: 520px;
+  color: inherit;
+  font-family: inherit;
+  font-size: 3rem;
+  text-align: center;
+}
+
+.random-quote-container {
+  max-width: 720px;
+  margin-top: 60px;
+}
+
+.quote {
+  font-size: 1.6rem;
+}
+
+.quote-author {
   font-size: 1.2rem;
 }
 
-.added-focus-wrapper {
+/* START footer */
+.background-image-info {
+  font-size: 1.2rem;
+  align-self: flex-start;
+}
+
+/* END footer */
+
+.main-focus-input {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -119,14 +138,17 @@ main {
 
 .checkbox-label {
   margin: 0 0.5em;
+  font-size: 3.3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 i.checkbox {
   cursor: pointer;
 }
 
-
-#nikola {
+.three-dots-container {
   position: relative;
   display: flex;
   align-items: center;
@@ -167,7 +189,7 @@ i.checkbox {
   padding: 6px 0;
   position: absolute;
   top: 40px;
-  /* bottom: -50px; */
+  right: 20%;
   display: none;
 }
 
@@ -191,4 +213,44 @@ i.checkbox {
 
 i.dark {
   color: rgb(211, 208, 208);
+}
+
+@media (width <=1200px) {
+  .time-holder {
+    font-size: 14rem;
+  }
+
+  .hello-message {
+    font-size: 5rem;
+  }
+
+  .main-focus-question {
+    font-size: 2rem;
+  }
+
+  .checkbox-label {
+    font-size: 3.3rem;
+  }
+}
+
+@media (width <=420px) {
+  .time-holder {
+    font-size: 8rem;
+  }
+
+  .hello-message {
+    font-size: 2.6rem;
+  }
+
+  .checkbox-label {
+    font-size: 2.6rem;
+  }
+
+  .random-quote-container {
+    margin-top: 30px;
+  }
+
+  .dashboard-container {
+    padding: 10px;
+  }
 }

@@ -21,7 +21,7 @@ async function getBackgroundImage() {
   try {
     const response = await fetch(`${scrimbaApi}`);
     const data = await response.json();
-    bodyEl.style.backgroundImage = `url(${data.urls.full})`;
+    bodyEl.style.backgroundImage = `url(${data.urls.regular})`;
     authorEl.textContent = `By: ${data.user.name}`;
     locationEl.textContent = data.location.name
       ? `Location: ${data.location.name}`
